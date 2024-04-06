@@ -179,7 +179,7 @@ if %build_thirdparty% == 1 (
 	-DBUILD_SHARED_LIBS:BOOL=OFF^
 	-DBUILD_TESTING:BOOL=OFF
   if errorlevel 1 goto error
-  cmake --build %build_dir% --config %build_config% --target INSTALL
+  cmake --build %build_dir% --config %build_config% --target INSTALL -- /p:CL_MPCount=16 /m:16 /property:MultiProcessorCompilation=true
   if errorlevel 1 goto error
 
   echo building glog.
@@ -188,7 +188,7 @@ if %build_thirdparty% == 1 (
   -DBUILD_TESTING:BOOL=OFF^
   -DWITH_GFLAGS:BOOL=OFF
   if errorlevel 1 goto error
-  cmake --build cmake-%build_dir% --config %build_config% --target INSTALL
+  cmake --build cmake-%build_dir% --config %build_config% --target INSTALL -- /p:CL_MPCount=16 /m:16 /property:MultiProcessorCompilation=true
   if errorlevel 1 goto error
 
   echo building leveldb.
@@ -197,7 +197,7 @@ if %build_thirdparty% == 1 (
   -DLEVELDB_BUILD_BENCHMARKS:BOOL=OFF^
   -DLEVELDB_BUILD_TESTS:BOOL=OFF
   if errorlevel 1 goto error
-  cmake --build %build_dir% --config %build_config% --target INSTALL
+  cmake --build %build_dir% --config %build_config% --target INSTALL -- /p:CL_MPCount=16 /m:16 /property:MultiProcessorCompilation=true
   if errorlevel 1 goto error
 
   echo building yaml-cpp.
@@ -208,7 +208,7 @@ if %build_thirdparty% == 1 (
   -DYAML_CPP_BUILD_TESTS:BOOL=OFF^
   -DYAML_CPP_BUILD_TOOLS:BOOL=OFF
   if errorlevel 1 goto error
-  cmake --build %build_dir% --config %build_config% --target INSTALL
+  cmake --build %build_dir% --config %build_config% --target INSTALL -- /p:CL_MPCount=16 /m:16 /property:MultiProcessorCompilation=true
   if errorlevel 1 goto error
 
   echo building gtest.
@@ -216,14 +216,14 @@ if %build_thirdparty% == 1 (
   cmake . -B%build_dir% %THIRDPARTY_COMMON_CMAKE_FLAGS%^
   -DBUILD_GMOCK:BOOL=OFF
   if errorlevel 1 goto error
-  cmake --build %build_dir% --config %build_config% --target INSTALL
+  cmake --build %build_dir% --config %build_config% --target INSTALL -- /p:CL_MPCount=16 /m:16 /property:MultiProcessorCompilation=true
   if errorlevel 1 goto error
 
   echo building marisa.
   cd %THIRDPARTY%\src\marisa-trie
   cmake %THIRDPARTY%\src -B%build_dir% %THIRDPARTY_COMMON_CMAKE_FLAGS%
   if errorlevel 1 goto error
-  cmake --build %build_dir% --config %build_config% --target INSTALL
+  cmake --build %build_dir% --config %build_config% --target INSTALL -- /p:CL_MPCount=16 /m:16 /property:MultiProcessorCompilation=true
   if errorlevel 1 goto error
 
   echo building opencc.
@@ -232,7 +232,7 @@ if %build_thirdparty% == 1 (
   -DBUILD_SHARED_LIBS=OFF^
   -DBUILD_TESTING=OFF
   if errorlevel 1 goto error
-  cmake --build %build_dir% --config %build_config% --target INSTALL
+  cmake --build %build_dir% --config %build_config% --target INSTALL -- /p:CL_MPCount=16 /m:16 /property:MultiProcessorCompilation=true
   if errorlevel 1 goto error
 )
 
@@ -255,7 +255,7 @@ if errorlevel 1 goto error
 
 echo.
 echo building librime.
-cmake --build %build_dir% --config %build_config% --target INSTALL
+cmake --build %build_dir% --config %build_config% --target INSTALL -- /p:CL_MPCount=16 /m:16 /property:MultiProcessorCompilation=true
 if errorlevel 1 goto error
 
 echo.
