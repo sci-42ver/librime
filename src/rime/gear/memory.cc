@@ -120,6 +120,7 @@ void Memory::OnCommit(Context* ctx) {
 }
 
 void Memory::OnDeleteEntry(Context* ctx) {
+  LOG(INFO) << "user_dict_->readonly():" << user_dict_->readonly();
   if (!user_dict_ ||
       user_dict_->readonly() ||
       !ctx ||
@@ -127,11 +128,15 @@ void Memory::OnDeleteEntry(Context* ctx) {
     return;
   auto phrase = As<Phrase>(Candidate::GetGenuineCandidate(
           ctx->GetSelectedCandidate()));
+  LOG(INFO) << "begin deleting entry";
   if (Language::intelligible(phrase, this)) {
     const DictEntry& entry(phrase->entry());
     LOG(INFO) << "deleting entry: '" << entry.text << "'.";
+    LOG(INFO) << "cand-" << ctx->GetSelectedCandidate()->text() << "-type:" << ctx->GetSelectedCandidate()->type();
     user_dict_->UpdateEntry(entry, -1);  // mark as deleted in user dict
     ctx->RefreshNonConfirmedComposition();
+  }else{
+    LOG(INFO) << "phrase lang-" << phrase->language()->name() << ";Memory lang:" << language()->name();
   }
 }
 

@@ -81,6 +81,7 @@ struct LevelDbWrapper {
   }
 
   bool Update(const string& key, const string& value, bool write_batch) {
+    LOG(INFO) << "write_batch:" << write_batch;
     if (write_batch) {
       batch.Put(key, value);
       return true;
@@ -194,9 +195,10 @@ bool LevelDb::Fetch(const string& key, string* value) {
 }
 
 bool LevelDb::Update(const string& key, const string& value) {
+  LOG(INFO) << "in LevelDb::Update";
   if (!loaded() || readonly())
     return false;
-  DLOG(INFO) << "update db entry: " << key << " => " << value;
+  LOG(INFO) << "update db entry: " << key << " => " << value;
   return db_->Update(key, value, in_transaction());
 }
 

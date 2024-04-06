@@ -349,8 +349,10 @@ bool UserDictionary::UpdateEntry(const DictEntry& entry, int commits) {
 bool UserDictionary::UpdateEntry(const DictEntry& entry, int commits,
                                  const string& new_entry_prefix) {
   string code_str(entry.custom_code);
-  if (code_str.empty() && !TranslateCodeToString(entry.code, &code_str))
+  if (code_str.empty() && !TranslateCodeToString(entry.code, &code_str)){
+    LOG(INFO) << "fail to update " << entry.text;
     return false;
+  }
   string key(code_str + '\t' + entry.text);
   string value;
   UserDbValue v;
@@ -377,6 +379,7 @@ bool UserDictionary::UpdateEntry(const DictEntry& entry, int commits,
   else if (commits < 0) {  // mark as deleted
     v.commits = (std::min)(-1, -v.commits);
     v.dee = algo::formula_d(0.0, (double)tick_, v.dee, (double)v.tick);
+    LOG(INFO) << "change " << entry.text << " to " << v.commits;
   }
   v.tick = tick_;
   return db_->Update(key, v.Pack());

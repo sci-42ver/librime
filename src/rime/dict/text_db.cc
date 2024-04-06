@@ -84,11 +84,13 @@ bool TextDb::Fetch(const string& key, string* value) {
 }
 
 bool TextDb::Update(const string& key, const string& value) {
+  LOG(INFO) << "in TextDb::Update";
   if (!loaded() || readonly())
     return false;
   DLOG(INFO) << "update db entry: " << key << " => " << value;
   data_[key] = value;
   modified_ = true;
+  LOG(INFO) << "changed in TextDb::Update";
   return true;
 }
 

@@ -211,18 +211,21 @@ bool Context::ClearNonConfirmedComposition() {
   bool reverted = false;
   while (!composition_.empty() &&
          composition_.back().status < Segment::kSelected) {
+    LOG(INFO) << "change reverted";
     composition_.pop_back();
     reverted = true;
   }
   if (reverted) {
+    LOG(INFO) << "before Forward, composition: " << composition_.GetDebugText();
     composition_.Forward();
-    DLOG(INFO) << "composition: " << composition_.GetDebugText();
+    LOG(INFO) << "composition: " << composition_.GetDebugText();
   }
   return reverted;
 }
 
 bool Context::RefreshNonConfirmedComposition() {
   if (ClearNonConfirmedComposition()) {
+    LOG(INFO) << "update_notifier";
     update_notifier_(this);
     return true;
   }

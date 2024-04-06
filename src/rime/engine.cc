@@ -115,6 +115,7 @@ bool ConcreteEngine::ProcessKey(const KeyEvent& key_event) {
 
 void ConcreteEngine::OnContextUpdate(Context* ctx) {
   if (!ctx) return;
+  LOG(INFO) << "in OnContextUpdate";
   Compose(ctx);
 }
 

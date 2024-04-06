@@ -374,7 +374,7 @@ bool ScriptTranslation::Evaluate(Dictionary* dict, UserDictionary* user_dict) {
     translated_len = (std::max)(translated_len, user_phrase_->rbegin()->first);
   if (translated_len < consumed &&
       syllable_graph.edges.size() > 1) {  // at least 2 syllables required
-    sentence_ = MakeSentence(dict, user_dict);
+    // sentence_ = MakeSentence(dict, user_dict);
   }
 
   if (phrase_)
