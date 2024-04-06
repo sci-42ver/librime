@@ -145,6 +145,7 @@ bool LevelDbAccessor::GetNextRecord(string* key, string* value) {
     key->erase(0, 1);  // remove meta character
   }
   *value = cursor_->GetValue();
+  LOG(INFO) << "got key-value:" << *key << "-" << *value;
   cursor_->Next();
   return true;
 }

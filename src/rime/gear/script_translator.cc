@@ -404,6 +404,7 @@ bool ScriptTranslation::Next() {
     }
     if (user_phrase_code_length > 0 &&
         user_phrase_code_length >= phrase_code_length) {
+      LOG(INFO) << "run UserDictEntryIterator:";
       UserDictEntryIterator& uter(user_phrase_iter_->second);
       if (!uter.Next()) {
         ++user_phrase_iter_;
@@ -480,7 +481,7 @@ void ScriptTranslation::PrepareCandidate() {
       user_phrase_code_length >= phrase_code_length) {
     UserDictEntryIterator& uter = user_phrase_iter_->second;
     const auto& entry = uter.Peek();
-    DLOG(INFO) << "user phrase '" << entry->text
+    LOG(INFO) << "user phrase '" << entry->text
                << "', code length: " << user_phrase_code_length;
     cand = New<Phrase>(translator_->language(),
                        "user_phrase",

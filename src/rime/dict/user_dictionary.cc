@@ -69,7 +69,7 @@ void DfsState::RecruitEntry(size_t pos) {
                                            credibility.back());
   if (e) {
     e->code = code;
-    DLOG(INFO) << "add entry at pos " << pos;
+    LOG(INFO) << "add entry at pos " << pos; // corresponding to 'code length'.
     query_result[pos].push_back(e);
   }
 }
@@ -193,6 +193,7 @@ void UserDictionary::DfsLookup(const SyllableGraph& syll_graph,
                                size_t current_pos,
                                const string& current_prefix,
                                DfsState* state) {
+  LOG(INFO) << "current_pos: '" << current_pos << "'";
   auto index = syll_graph.indices.find(current_pos);
   if (index == syll_graph.indices.end()) {
     return;
@@ -200,7 +201,7 @@ void UserDictionary::DfsLookup(const SyllableGraph& syll_graph,
   DLOG(INFO) << "dfs lookup starts from " << current_pos;
   string prefix;
   for (const auto& spelling : index->second) {
-    DLOG(INFO) << "prefix: '" << current_prefix << "'"
+    LOG(INFO) << "prefix: '" << current_prefix << "'"
                << ", syll_id: " << spelling.first
                << ", num_spellings: " << spelling.second.size();
     state->code.push_back(spelling.first);
@@ -228,10 +229,12 @@ void UserDictionary::DfsLookup(const SyllableGraph& syll_graph,
           continue;
       }
       while (state->IsExactMatch(prefix)) {  // 'b |e ' vs. 'b e \tBe'
-        DLOG(INFO) << "match found for '" << prefix << "'.";
+        LOG(INFO) << "match found for '" << prefix << "'.";
         state->RecruitEntry(end_pos);
-        if (!state->NextEntry())  // reached the end of db
+        if (!state->NextEntry()){  // reached the end of db
+          LOG(INFO) << "break finding NextEntry";
           break;
+        }
       }
       // the caller can limit the number of syllables to look up
       if ((!state->depth_limit || state->code.size() < state->depth_limit) &&
@@ -274,6 +277,10 @@ UserDictionary::Lookup(const SyllableGraph& syll_graph,
     return nullptr;
   // sort each group of homophones by weight
   for (auto& v : state.query_result) {
+    for (auto &i : v.second)
+    {
+      LOG(INFO) << "get entry:" << i->text;
+    }
     v.second.Sort();
   }
   return collect(&state.query_result);
@@ -487,7 +494,7 @@ an<DictEntry> UserDictionary::CreateDictEntry(const string& key,
   if (full_code) {
     *full_code = key.substr(0, separator_pos);
   }
-  DLOG(INFO) << "text = '" << e->text
+  LOG(INFO) << "text = '" << e->text
              << "', code_len = " << e->code.size()
              << ", weight = " << e->weight
              << ", commit_count = " << e->commit_count
