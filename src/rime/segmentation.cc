@@ -27,6 +27,7 @@ bool Segment::Reopen(size_t caret_pos) {
   if (status < kSelected) {
     return false;
   }
+  LOG(INFO) << "running Segment::Reopen";
   const size_t original_end_pos = start + length;
   if (original_end_pos == caret_pos) {
     // reuse previous candidates and keep selection

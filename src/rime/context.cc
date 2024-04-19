@@ -148,7 +148,7 @@ bool Context::DeleteCandidate(
     return false;
   Segment& seg(composition_.back());
   if (auto cand = get_candidate(seg)) {
-    DLOG(INFO) << "Deleting candidate: '" << cand->text();
+    LOG(INFO) << "Deleting candidate: '" << cand->text();
     delete_notifier_(this);
     return true;  // CAVEAT: this doesn't mean anything is deleted for sure
   }
@@ -201,6 +201,7 @@ bool Context::ReopenPreviousSegment() {
   if (composition_.Trim()) {
     if (!composition_.empty() &&
         composition_.back().status >= Segment::kSelected) {
+      LOG(INFO) << "running ReopenPreviousSegment";
       composition_.back().Reopen(caret_pos());
     }
     update_notifier_(this);

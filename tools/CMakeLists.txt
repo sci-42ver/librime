@@ -51,6 +51,8 @@ target_link_libraries(rime_table_decompiler
 
 install(TARGETS rime_deployer DESTINATION ${BIN_INSTALL_DIR})
 install(TARGETS rime_dict_manager DESTINATION ${BIN_INSTALL_DIR})
+install(TARGETS rime_api_console DESTINATION ${BIN_INSTALL_DIR})
+install(TARGETS rime_console DESTINATION ${BIN_INSTALL_DIR})
 install(TARGETS rime_table_decompiler DESTINATION ${BIN_INSTALL_DIR})
 
 install(TARGETS rime_patch DESTINATION ${BIN_INSTALL_DIR})
