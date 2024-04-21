@@ -225,9 +225,14 @@ bool Context::ClearPreviousSegment() {
 
 bool Context::ReopenPreviousSelection() {
   for (auto it = composition_.rbegin(); it != composition_.rend(); ++it) {
-    if (it->status > Segment::kSelected)
+    // TODO since I confirmed this segment,
+    if (it->status > Segment::kSelected){
+      LOG(INFO) << "ReopenPreviousSelection find one confirmed seg:" << it->GetSelectedCandidate()->text();
       return false;
+    }
     if (it->status == Segment::kSelected) {
+      LOG(INFO) << "ReopenPreviousSelection find one selected seg:" << it->GetSelectedCandidate()->text() 
+        << ";caret_pos():" << caret_pos();
       while (it != composition_.rbegin()) {
         composition_.pop_back();
       }
@@ -243,12 +248,14 @@ bool Context::ClearNonConfirmedComposition() {
   bool reverted = false;
   while (!composition_.empty() &&
          composition_.back().status < Segment::kSelected) {
+    LOG(INFO) << "composition poped seg has status:" << composition_.back().status;
     composition_.pop_back();
     reverted = true;
   }
   if (reverted) {
+    LOG(INFO) << "before Forward composition: " << composition_.GetDebugText();
     composition_.Forward();
-    DLOG(INFO) << "composition: " << composition_.GetDebugText();
+    LOG(INFO) << "composition: " << composition_.GetDebugText();
   }
   return reverted;
 }

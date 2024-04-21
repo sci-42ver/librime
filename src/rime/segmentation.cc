@@ -126,7 +126,14 @@ bool Segmentation::Trim() {
     pop_back();
     return true;
   }
-  // LOG(INFO) << "Segmentation::Trim()" << empty() << ";" << back().start << ";" << back().end << ";";
+  if (!empty()){
+    LOG(INFO) << "Segmentation::Trim():" << back().start << ";" << back().end << ";";
+    if (back().menu && !back().menu->empty()) {
+      LOG(INFO) << "Segmentation::Trim() text:" << back().menu->GetCandidateAt(0)->text();
+    }
+  } else {
+    LOG(INFO) << "Segmentation::Trim() empty";
+  }
   return false;
 }
 
