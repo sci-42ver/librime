@@ -128,7 +128,12 @@ void Memory::OnDeleteEntry(Context* ctx) {
     user_dict_->UpdateEntry(entry, -1);  // mark as deleted in user dict
     ctx->RefreshNonConfirmedComposition();
   } else {
-    // LOG(INFO) << "languange" << phrase->language()->name() << ";" << this->language()->name();
+    if (phrase){
+      LOG(INFO) << "languange" << phrase->language()->name() << ";" << this->language()->name();
+    } else {
+      an<Candidate> cand=Candidate::GetGenuineCandidate(ctx->GetSelectedCandidate());
+      LOG(INFO) << "can't get phrase for " << cand->text();
+    }
   }
 }
 

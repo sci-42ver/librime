@@ -144,7 +144,6 @@ bool Context::Highlight(size_t index) {
 
 bool Context::DeleteCandidate(
     function<an<Candidate>(Segment& seg)> get_candidate) {
-  // LOG(INFO) << "to delete the candidate";
   if (composition_.empty())
     return false;
   Segment& seg(composition_.back());
@@ -153,8 +152,6 @@ bool Context::DeleteCandidate(
     LOG(INFO) << "Deleting candidate: '" << cand->text();
     delete_notifier_(this);
     return true;  // CAVEAT: this doesn't mean anything is deleted for sure
-  } else {
-    // LOG(INFO) << "can't get the candidate";
   }
   return false;
 }
