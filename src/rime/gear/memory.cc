@@ -124,9 +124,11 @@ void Memory::OnDeleteEntry(Context* ctx) {
       As<Phrase>(Candidate::GetGenuineCandidate(ctx->GetSelectedCandidate()));
   if (Language::intelligible(phrase, this)) {
     const DictEntry& entry(phrase->entry());
-    LOG(INFO) << "deleting entry: '" << entry.text << "'.";
+    // LOG(INFO) << "deleting entry: '" << entry.text << "'.";
     user_dict_->UpdateEntry(entry, -1);  // mark as deleted in user dict
     ctx->RefreshNonConfirmedComposition();
+  } else {
+    // LOG(INFO) << "languange" << phrase->language()->name() << ";" << this->language()->name();
   }
 }
 

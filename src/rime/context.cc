@@ -144,13 +144,17 @@ bool Context::Highlight(size_t index) {
 
 bool Context::DeleteCandidate(
     function<an<Candidate>(Segment& seg)> get_candidate) {
+  // LOG(INFO) << "to delete the candidate";
   if (composition_.empty())
     return false;
   Segment& seg(composition_.back());
   if (auto cand = get_candidate(seg)) {
+    // LOG(INFO) << "Deleting candidate: '" << cand->text();
     LOG(INFO) << "Deleting candidate: '" << cand->text();
     delete_notifier_(this);
     return true;  // CAVEAT: this doesn't mean anything is deleted for sure
+  } else {
+    // LOG(INFO) << "can't get the candidate";
   }
   return false;
 }
@@ -204,9 +208,11 @@ bool Context::ReopenPreviousSegment() {
       LOG(INFO) << "running ReopenPreviousSegment";
       composition_.back().Reopen(caret_pos());
     }
+    LOG(INFO) << "running ReopenPreviousSegment:" << composition_.back().status;
     update_notifier_(this);
     return true;
   }
+  LOG(INFO) << "running ReopenPreviousSegment not Trim";
   return false;
 }
 

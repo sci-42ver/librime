@@ -633,7 +633,7 @@ bool CleanOldLogFiles::Run(Deployer* deployer) {
   // which causes permission issue on Android
   // https://github.com/google/glog/blob/b58718f37cf58fa17f48bf1d576974d133d89839/src/logging.cc#L2410
   if (FLAGS_log_dir.empty()) {
-    google::GetExistingTempDirectories(&dirs);
+    dirs = google::GetLoggingDirectories();
   } else {
     dirs.push_back(FLAGS_log_dir);
   }

@@ -126,6 +126,7 @@ bool Segmentation::Trim() {
     pop_back();
     return true;
   }
+  // LOG(INFO) << "Segmentation::Trim()" << empty() << ";" << back().start << ";" << back().end << ";";
   return false;
 }
 
